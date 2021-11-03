@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     let search= document.querySelector('#lookup');
+    let searchcity= document.querySelector('#lookup_cities');
+
+    searchcity.addEventListener('click', () => myFunction1());
     search.addEventListener('click', () => myFunction());
     
 
@@ -9,16 +12,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let request = new XMLHttpRequest();
        
-        let alias=p;
- 
-      
+        let country=p;
+       
         request.onreadystatechange = function() {
             printFunction(request, lstresult);
         }
-        request.open('GET', `world.php?country=${alias}`);
+        request.open('GET', `world.php?country=${country}&context=country`);
         request.send();
     }
 
+    function myFunction1() {
+        let lstresult=document.querySelector('#result');
+        let p=document.querySelector('#country').value;
+
+        let request = new XMLHttpRequest();
+       
+        let country=p;
+       
+        request.onreadystatechange = function() {
+            printFunction(request, lstresult);
+        }
+        request.open('GET', `world.php?country=${country}&context=cities`);
+        request.send();
+    }
  
 
     function printFunction(request, lstresult) {
@@ -30,4 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
+
+
+
 });
