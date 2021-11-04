@@ -9,10 +9,10 @@ $context= filter_input(INPUT_GET,'context',FILTER_SANITIZE_STRING);
 
 $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
 
-$country= '%'. $country .'%';
+$country1= '%'. $country .'%';
 $sql= "SELECT * FROM countries WHERE name LIKE :country";
 $stmt = $conn->prepare($sql);
-$stmt->bindParam(':country', $country, PDO::PARAM_STR);
+$stmt->bindParam(':country', $country1, PDO::PARAM_STR);
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
