@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function myFunction() {
         let lstresult=document.querySelector('#result');
         let p=document.querySelector('#country').value;
-
+        p = p.trim();
         let request = new XMLHttpRequest();
        
-        let country=p;
-       
+        let country=sanitize(p);
+      
         request.onreadystatechange = function() {
             printFunction(request, lstresult);
         }
@@ -24,10 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function myFunction1() {
         let lstresult=document.querySelector('#result');
         let p=document.querySelector('#country').value;
-
+        p = p.trim();
         let request = new XMLHttpRequest();
        
-        let country=p;
+        let country=sanitize(p);
        
         request.onreadystatechange = function() {
             printFunction(request, lstresult);
@@ -47,6 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function sanitize(string) {
+        let map = {'&': '','<': '', '>': '', '"': '',"'": '',"/": ''};
+        let reg = /[&<>"'/]/ig;
+        return string.replace(reg, (match)=>(map[match]));
+      }
 
 
 });

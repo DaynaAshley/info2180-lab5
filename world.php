@@ -4,17 +4,23 @@ $username = 'lab5_user';
 $password = 'password123';
 $dbname = 'world';
 
-$country= $_GET['country'];
-$context=$_GET['context'];
-
+$country= filter_input(INPUT_GET,'country',FILTER_SANITIZE_STRING);
+$context= filter_input(INPUT_GET,'context',FILTER_SANITIZE_STRING);
 
 $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-$stmt = $conn->query("SELECT * FROM countries WHERE name LIKE '%{$country}%'");
 
+$country= '%'. $country .'%';
+$sql= "SELECT * FROM countries WHERE name LIKE :country";
+$stmt = $conn->prepare($sql);
+$stmt->bindParam(':country', $country, PDO::PARAM_STR);
+$stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($context=='cities'){
-  $stmt1 = $conn->query("SELECT cities.name ,cities.district, cities.population FROM cities join countries on cities.country_code = countries.code Where countries.name = '$country'" );
+  $sql1= "SELECT cities.name ,cities.district, cities.population FROM cities join countries on cities.country_code = countries.code Where countries.name = :country";
+  $stmt1 = $conn->prepare($sql1);
+  $stmt1->bindParam(':country', $country, PDO::PARAM_STR);
+  $stmt1->execute();
   $results1 = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 }
 
